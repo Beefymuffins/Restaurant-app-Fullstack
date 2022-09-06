@@ -1,0 +1,17 @@
+//- Will always assume its a div if you leave the element type out
+//- nest by indenting 
+//-when writing text its "#"
+//-when writing in attribute its like JS `${}`
+//- add '-' to do js right in the file
+extends layout 
+block content 
+  div.wrapper
+    - const upDog = dog.toUpperCase()
+    p.hello Hello, My dogs name is #{upDog}  
+    span#yo Yo!!
+    img(src="dog.jpeg" alt=`Dog ${dog}`) 
+
+  h2
+    | Hello 
+    em How are you?
+

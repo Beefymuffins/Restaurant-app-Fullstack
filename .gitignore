@@ -8,3 +8,4 @@ variables.env
 variables.env.now
 readme.md
 notes.txt
+.eslintrc

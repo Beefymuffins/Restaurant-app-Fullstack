@@ -1,0 +1,11 @@
+extends layout 
+
+//- allows us to use all the mixins from a file we choose as functions 
+include mixins/_storeForm 
+
+block content
+	.inner
+		h2= title
+		//- the "+" tells it we are using a mixin
+		+storeForm(store)
+		
