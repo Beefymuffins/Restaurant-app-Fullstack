@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
 mongoose.Promise = global.Promise;
+
 const slug = require('slugs');
 
 const storeSchema = new mongoose.Schema({
@@ -35,6 +35,7 @@ const storeSchema = new mongoose.Schema({
       required: 'You must supply an address!',
     },
   },
+  photo: String,
 });
 
 storeSchema.pre('save', function (next) {
