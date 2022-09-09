@@ -24,7 +24,7 @@ exports.addStore = (req, res) => {
   res.render('editStore', { title: 'Add Store' });
 };
 
-// Middleware for photo upload
+// Middleware for photo upload/resize
 exports.upload = multer(multerOptions).single('photo');
 
 exports.resize = async (req, res, next) => {
