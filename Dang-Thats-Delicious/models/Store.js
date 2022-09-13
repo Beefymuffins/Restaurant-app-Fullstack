@@ -3,6 +3,7 @@ mongoose.Promise = global.Promise;
 
 const slug = require('slugs');
 
+// Indexing will always happen in your schema
 const storeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -43,8 +44,14 @@ const storeSchema = new mongoose.Schema({
   },
 });
 
+// Define our indexes
+storeSchema.index({
+  name: 'text',
+  description: 'text',
+});
+
 storeSchema.pre('save', async function (next) {
-if (!this.isModified('name')) 
+  if (!this.isModified('name')) {
     next(); // skip it
     return; // stop this function from running
   }
