@@ -36,10 +36,15 @@ const storeSchema = new mongoose.Schema({
     },
   },
   photo: String,
+  author: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'You must supply a author',
+  },
 });
 
 storeSchema.pre('save', async function (next) {
-  if (!this.isModified('name')) {
+if (!this.isModified('name')) 
     next(); // skip it
     return; // stop this function from running
   }
