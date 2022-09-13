@@ -6,6 +6,9 @@ const userController = require('../controllers/userController');
 const { catchErrors } = require('../handlers/errorHandlers');
 const authController = require('../controllers/authController');
 
+/*
+    CatchErrors is a function we made, we wrap our functions here so we don't have to use try/catch functions.
+*/
 // Do work here
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
@@ -40,7 +43,6 @@ router.get('/register', userController.registerForm);
 // 2. Register the user
 // 3. We need to log them in
 router.post('/register', userController.validateRegister, userController.register, authController.login);
-
 router.get('/logout', authController.logout);
 
 router.get('/account', authController.isLoggedIn, userController.account);
@@ -54,5 +56,6 @@ router.post('/account/reset/:token', authController.confirmedPasswords, catchErr
 */
 
 router.get('/api/search', catchErrors(storeController.searchStores));
+router.get('/api/stores/near', catchErrors(storeController.mapStores));
 
 module.exports = router;

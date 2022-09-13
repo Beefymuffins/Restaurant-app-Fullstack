@@ -124,3 +124,21 @@ exports.searchStores = async (req, res) => {
     .limit(5);
   res.json(stores);
 };
+
+exports.mapStores = async (req, res) => {
+  const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates,
+        },
+        $maxDistance: 10000, // 10km
+      },
+    },
+  };
+  // can use selector to slim down the ajax request less info to show
+  const stores = await Store.find(q).select('slug name description location').limit(10);
+  res.json(stores);
+};
