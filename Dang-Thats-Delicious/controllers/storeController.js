@@ -66,7 +66,7 @@ const confirmOwner = (store, user) => {
 exports.editStore = async (req, res) => {
   // 1. Find the store from givin ID
   const store = await Store.findOne({ _id: req.params.id });
-  // TODO: 2. Confirm they are the owner of the store
+  // 2. Confirm they are the owner of the store
   confirmOwner(store, req.user);
 
   // 3. Render out the edit form so the user can update their store
@@ -160,4 +160,9 @@ exports.getHearts = async (req, res) => {
     _id: { $in: req.user.hearts },
   });
   res.render('stores', { title: 'Hearted Stores', stores });
+};
+
+exports.getTopStores = async (req, res) => {
+  const stores = await Store.getTopStores();
+  res.render('topStores', { stores, title: '★ Top Stores!' });
 };
