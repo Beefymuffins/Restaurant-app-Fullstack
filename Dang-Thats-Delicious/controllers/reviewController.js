@@ -7,7 +7,7 @@ exports.addReview = async (req, res) => {
   // Save the new Review
   const newReview = new Review(req.body);
   await newReview.save();
-  req.flash('success', 'Review Saved!');
+  req.flash('success', 'Thanks for leaving a Review!');
   // Send em back to the the page they came from
   res.redirect('back');
 };

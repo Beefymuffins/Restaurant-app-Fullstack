@@ -2,7 +2,7 @@ import axios from 'axios';
 import { $ } from './bling';
 
 function ajaxHeart(e) {
-  e.preventDefault();
+  e.preventDefault(); // stop form from submitting
   axios
     .post(this.action)
     .then((res) => {

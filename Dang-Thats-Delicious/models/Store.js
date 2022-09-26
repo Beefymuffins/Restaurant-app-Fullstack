@@ -4,45 +4,52 @@ mongoose.Promise = global.Promise;
 const slug = require('slugs');
 
 // Indexing will always happen in your schema
-const storeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: 'Please enter a store name!',
-  },
-  slug: String,
-  description: {
-    type: String,
-    trim: true,
-  },
-  tags: [String],
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  location: {
-    type: {
+const storeSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
-      default: 'Point',
+      trim: true,
+      required: 'Please enter a store name!',
     },
-    coordinates: [
-      {
-        type: Number,
-        required: 'You must supply coordinates!',
+    slug: String,
+    description: {
+      type: String,
+      trim: true,
+    },
+    tags: [String],
+    created: {
+      type: Date,
+      default: Date.now,
+    },
+    location: {
+      type: {
+        type: String,
+        default: 'Point',
       },
-    ],
-    address: {
-      type: String,
-      required: 'You must supply an address!',
+      coordinates: [
+        {
+          type: Number,
+          required: 'You must supply coordinates!',
+        },
+      ],
+      address: {
+        type: String,
+        required: 'You must supply an address!',
+      },
+    },
+    photo: String,
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: 'You must supply a author',
     },
   },
-  photo: String,
-  author: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: 'You must supply a author',
-  },
-});
+  {
+    // Make the virtual fields visible by adding these lines to schema
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 // Define our indexes
 storeSchema.index({
@@ -66,7 +73,6 @@ storeSchema.pre('save', async function (next) {
   }
 
   next();
-  // TODO: make more resilient so slugs are unique
 });
 
 storeSchema.statics.getTagsList = function () {
@@ -76,5 +82,14 @@ storeSchema.statics.getTagsList = function () {
     { $sort: { count: -1 } },
   ]);
 };
+
+// Find the reviews where the stores _id property === reviews store property
+// Look at mongoDB for better visual understanding
+storeSchema.virtual('reviews', {
+  // virtual is a mongoose function
+  ref: 'Review', // What model to link?
+  localField: '_id', // Which field on the store?
+  foreignField: 'store', // Which field on the review?
+});
 
 module.exports = mongoose.model('Store', storeSchema);
