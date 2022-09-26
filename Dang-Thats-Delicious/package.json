@@ -7,7 +7,7 @@
     "npm": "8.x"
   },
   "scripts": {
-    "start": "node ./start.js",
+    "prod": "node ./start.js",
     "build": "webpack",
     "watch": "nodemon ./start.js --ignore public/",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
